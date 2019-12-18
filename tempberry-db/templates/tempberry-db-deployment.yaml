@@ -1,0 +1,70 @@
+apiVersion: v1
+kind: Secret
+metadata:
+    name: postgres-credentials
+    labels:
+        app: postgres
+type: Opaque
+data:
+    user: cG9zdGdyZXNhZG1pbg==
+    password: YWRtaW4xMjM=
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+    labels:
+        app: postgres
+    name: postgres-pv-claim
+spec:
+    accessModes:
+        - ReadWriteOnce
+    resources:
+        requests:
+            storage: 100M
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: postgres
+spec:
+    replicas: {{ .Values.replicaCount }}
+    selector:
+        matchLabels:
+            app: postgres
+    template:
+        metadata:
+            labels:
+                app: postgres
+        spec:
+            containers:
+                - name: postgres
+                  image: "{{ .Values.image }}"
+                  imagePullPolicy: "IfNotPresent"
+                  ports:
+                      - containerPort: 5432
+                  env:
+                      - name: DT_CUSTOM_PROP
+                        value: "keptn_project={{ .Values.keptn.project }} keptn_service={{ .Values.keptn.service }} keptn_stage={{ .Values.keptn.stage }} keptn_deployment={{ .Values.keptn.deployment }}"
+                      - name: POSTGRES_USER
+                        valueFrom:
+                            secretKeyRef:
+                                name: postgres-credentials
+                                key: user
+
+                      - name: POSTGRES_PASSWORD
+                        valueFrom:
+                            secretKeyRef:
+                                name: postgres-credentials
+                                key: password
+
+                      - name: POSTGRES_DB
+                        value: "tempberry"
+                  volumeMounts:
+                      - mountPath: /var/lib/postgresql/data
+                        name: postgres-volume-mount
+                        subPath: postgres
+            volumes:
+                - name: postgres-volume-mount
+                  persistentVolumeClaim:
+                      claimName: postgres-pv-claim
+

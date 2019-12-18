@@ -1,0 +1,16 @@
+# [START service]
+apiVersion: v1
+kind: Service
+metadata:
+    name: tempberry-backend-service
+    labels:
+        app: backend
+spec:
+    # type: LoadBalancer # note: use type loadbalancer if you want to expose it using a loadbalancer
+    ports:
+        - port: 80
+          protocol: "TCP"
+          targetPort: 8000
+    selector:
+        app: backend
+# [END service]

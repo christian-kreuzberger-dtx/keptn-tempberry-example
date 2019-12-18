@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: tempberry-backend
+    labels:
+        app: backend
+spec:
+    replicas: {{ .Values.replicaCount }}
+    selector:
+        matchLabels:
+            app: backend
+    template:
+        metadata:
+            labels:
+                app: backend
+        spec:
+            containers:
+                - name: tempberry-backend
+                  image: "{{ .Values.image }}"
+                  imagePullPolicy: Always
+                    # remove comment in next line to pull image from local cache
+                    # imagePullPolicy: Never
+                  ports:
+                      - containerPort: 8000
+                  env:
+                      - name: DT_CUSTOM_PROP
+                        value: "keptn_project={{ .Values.keptn.project }} keptn_service={{ .Values.keptn.service }} keptn_stage={{ .Values.keptn.stage }} keptn_deployment={{ .Values.keptn.deployment }}"
+                      - name: DATABASE_USER
+                        valueFrom:
+                            secretKeyRef:
+                                name: postgres-credentials
+                                key: user
+
+                      - name: DATABASE_PASSWORD
+                        valueFrom:
+                            secretKeyRef:
+                                name: postgres-credentials
+                                key: password
+
+                      - name: DATABASE_NAME
+                        value: "tempberry"
+
+                      - name: DATABASE_HOST
+                        value: "postgres"
+
+                      - name: DATABASE_URL
+                        value: postgres://$(DATABASE_USER):$(DATABASE_PASSWORD)@$(DATABASE_HOST)/$(DATABASE_NAME)
+
+                      - name: DJANGO_SETTINGS_MODULE
+                        value: "tempBerry.settings.live"
+
+                      - name: DJANGO_ALLOWED_HOSTS
+                        value: "*"
+
+                      - name: SECRET_KEY
+                        value: "TODO_ADD_KEY_HERE"
+                  resources:
+                    limits:
+                      cpu: 500m
+                      memory: 256Mi
+                    requests:
+                      cpu: 100m
+                      memory: 128Mi

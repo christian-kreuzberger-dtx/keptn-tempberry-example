@@ -1,0 +1,2 @@
+image: ckreuzberger/tempberry-backend:master
+replicaCount: 2
