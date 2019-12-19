@@ -28,6 +28,8 @@ metadata:
     name: postgres
 spec:
     replicas: {{ .Values.replicaCount }}
+    strategy:
+        type: Recreate # this is needed in case we upgrade postgres (else it would block as it needs the pvc)
     selector:
         matchLabels:
             app: postgres
