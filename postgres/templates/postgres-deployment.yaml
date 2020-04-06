@@ -36,6 +36,7 @@ spec:
     template:
         metadata:
             labels:
+                app: postgres
                 app.kubernetes.io/name: {{ .Values.keptn.service | default "" }} # = Keptn Service Name
                 app.kubernetes.io/instance: "{{ .Values.keptn.service | default "" }}-{{ .Values.keptn.deployment | default "" }}"
                 app.kubernetes.io/component: database

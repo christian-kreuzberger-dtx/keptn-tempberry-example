@@ -48,6 +48,9 @@ spec:
                       - name: DATABASE_HOST
                         value: "postgres"
 
+                      - name: DATABASE_PORT
+                        value: "5432"
+
                       - name: DATABASE_URL
                         value: postgres://$(DATABASE_USER):$(DATABASE_PASSWORD)@$(DATABASE_HOST)/$(DATABASE_NAME)
 
@@ -67,15 +70,15 @@ spec:
                       cpu: 100m
                   livenessProbe:
                     httpGet:
-                      path: /
-                      port: 8080
+                      path: /api/
+                      port: 8000
                     initialDelaySeconds: 10
                     periodSeconds: 10
                     timeoutSeconds: 15
                   readinessProbe:
                     httpGet:
-                      path: /
-                      port: 8080
+                      path: /api/
+                      port: 8000
                     initialDelaySeconds: 10
                     periodSeconds: 10
                     timeoutSeconds: 15
