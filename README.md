@@ -7,6 +7,17 @@ This is an example project for [Keptn](https://keptn.sh) for [Tempberry](https:/
 * A Kubernetes cluster (version 1.14 or 1.15)
 * A working Keptn 0.6.1 installation
 
+
+## Status
+
+- [x] Create chart for postgres
+- [x] Create chart for tempberry backend
+- [ ] Create chart for tempberry frontend
+- [ ] Create superuser on installation
+- [ ] Automatically run migrations (and roll them back if anything fails)
+- [ ] Create JMeter tests for tempberry backend
+- [ ] Run automated tests for installation in Keptn
+
 ## Setup
 
 1. Specify for project name in a variable

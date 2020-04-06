@@ -66,6 +66,13 @@ spec:
 
                       - name: POSTGRES_DB
                         value: "tempberry"
+                  resources:
+                    limits:
+                      cpu: 500m
+                      memory: 256Mi
+                    requests:
+                      cpu: 100m
+                      memory: 32Mi
                   volumeMounts:
                       - mountPath: /var/lib/postgresql/data
                         name: postgres-volume-mount
