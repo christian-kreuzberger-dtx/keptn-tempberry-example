@@ -3,16 +3,21 @@ kind: Deployment
 metadata:
     name: tempberry-backend
     labels:
-        app: backend
+        app: tempberry-backend
 spec:
     replicas: {{ .Values.replicaCount }}
     selector:
         matchLabels:
-            app: backend
+            app: tempberry-backend
     template:
         metadata:
             labels:
-                app: backend
+                app: tempberry-backend
+                app.kubernetes.io/name: {{ .Values.keptn.service }}
+                app.kubernetes.io/instance: "{{ .Values.keptn.service }}-{{ .Values.keptn.deployment }}"
+                app.kubernetes.io/component: api
+                app.kubernetes.io/part-of: "{{ .Chart.Name }}" # = Keptn Project
+                app.kubernetes.io/managed-by: Keptn
         spec:
             containers:
                 - name: tempberry-backend
@@ -60,4 +65,17 @@ spec:
                       memory: 256Mi
                     requests:
                       cpu: 100m
-                      memory: 128Mi
+                  livenessProbe:
+                    httpGet:
+                      path: /
+                      port: 8080
+                    initialDelaySeconds: 10
+                    periodSeconds: 10
+                    timeoutSeconds: 15
+                  readinessProbe:
+                    httpGet:
+                      path: /
+                      port: 8080
+                    initialDelaySeconds: 10
+                    periodSeconds: 10
+                    timeoutSeconds: 15

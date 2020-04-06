@@ -2,7 +2,7 @@ stages:
     - name: "dev"
       deployment_strategy: "direct"
       test_strategy: "functional"
-    - name: "staging"
+    - name: "hardening"
       deployment_strategy: "blue_green_service"
       test_strategy: "performance"
     - name: "production"
