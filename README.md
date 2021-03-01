@@ -4,8 +4,8 @@ This is an example project for [Keptn](https://keptn.sh) for [Tempberry](https:/
 
 ## Prerequesits
 
-* A Kubernetes cluster (version 1.14 or 1.15)
-* A working Keptn 0.6.1 installation
+* A Kubernetes cluster
+* A working Keptn 0.8.0 installation
 
 
 ## Status
@@ -32,14 +32,19 @@ keptn create project $PROJECT --shipyard=shipyard.yaml
 
 3. Onboard postgres and tempberry-backend
 ```console
-keptn onboard service postgres --project=$PROJECT --chart=./postgres  --deployment-strategy=direct
+keptn onboard service postgres --project=$PROJECT --chart=./postgres
 keptn onboard service tempberry-backend --project=$PROJECT --chart=./tempberry-backend
+```
+
+4. Add SLO for hardening and tempberry-backend
+```console
+keptn add-resource --project=$PROJECT --stage=hardening --service=tempberry-backend --resource=slo.yaml --resourceUri=slo.yaml
 ```
 
 4. And finally, send new artifacts for postgres and tempberry-backend
 ```console
-keptn send event new-artifact --project=$PROJECT --service=postgres --image=postgres:10.4
-keptn send event new-artifact --project=$PROJECT --service=tempberry-backend --image=ckreuzberger/tempberry-backend:0.1
+keptn trigger delivery --project=$PROJECT --service=postgres --image=postgres:10.4 --sequence=delivery-direct
+keptn trigger delivery --project=$PROJECT --service=tempberry-backend --image=ckreuzberger/tempberry-backend:0.1
 ```
 
 ## Cleanup
