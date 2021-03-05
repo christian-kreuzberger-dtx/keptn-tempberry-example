@@ -27,7 +27,7 @@ PROJECT=tempberry
 
 2. Create the project using Keptn Cli
 ```console
-keptn create project $PROJECT --shipyard=shipyard.yaml
+keptn create project $PROJECT --shipyard=./shipyard.yaml
 ```
 
 3. Onboard postgres and tempberry-backend
