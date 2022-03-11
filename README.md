@@ -4,8 +4,7 @@ This is an example project for [Keptn](https://keptn.sh) for [Tempberry](https:/
 
 ## Prerequesits
 
-* A Kubernetes cluster
-* A working Keptn 0.8.0 installation
+You need to have a Kubernetes cluster with a working Keptn 0.8.x installation (see https://keptn.sh/docs/quickstart/ steps 1 to 4)
 
 
 ## Status
